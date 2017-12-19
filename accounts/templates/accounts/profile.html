@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}Profile | {{ user }}{% endblock %}
+
+{% block body %}
+    <div class="grid-80" style="word-wrap: break-word;">
+    {% if not profile.first_name and not profile.last_name and not profile.date_of_birth and not profile.email and not profile.bio %}
+        <h1>No user information.</h1>
+    {% endif %}
+    {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="{{ usr }} avatar">
+    {% endif %}
+        <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+        {% if profile.date_of_birth %}<h3>{{ profile.date_of_birth }}</h3>{% endif %}
+        <p>{{ profile.email|urlize }}</p>
+        <p>{{ profile.bio|linebreaksbr }}</p>
+{#        <a href="{% url 'accounts:edit_profile' %}"><button class="button-primary">Edit</button></a>#}
+{#        <a href="{% url 'accounts:edit_email' %}"><button class="button-secondary">#}
+{#            {% if profile.email %}#}
+{#                Edit#}
+{#            {% else %}#}
+{#                Add#}
+{#            {% endif %}#}
+{#                Email</button></a>#}
+{#        <a href="{% url 'accounts:change_password' %}"><button class="button-secondary">Change Password</button></a>#}
+    </div>
+{% endblock %}

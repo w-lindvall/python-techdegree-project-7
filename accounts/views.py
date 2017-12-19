@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -54,3 +55,10 @@ def sign_out(request):
     logout(request)
     messages.success(request, "You've been signed out. Come back soon!")
     return HttpResponseRedirect(reverse('home'))
+
+
+@login_required
+def profile(request):
+    """Display user information if logged in."""
+    profile = request.user.profile
+    return render(request, 'accounts/profile.html', {'profile': profile})
