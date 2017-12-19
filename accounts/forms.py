@@ -1,5 +1,5 @@
 from datetime import date
-from django.forms.extras.widgets import SelectDateWidget
+from django.forms import SelectDateWidget
 from django import forms
 
 from .models import Profile

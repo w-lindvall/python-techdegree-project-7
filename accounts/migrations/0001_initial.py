@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=254, blank=True)),
                 ('date_of_birth', models.DateField(blank=True, null=True)),
                 ('bio', models.TextField(blank=True)),
-                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
         ),
     ]

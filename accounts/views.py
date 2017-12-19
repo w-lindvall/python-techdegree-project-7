@@ -1,8 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.core.urlresolvers import reverse
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
@@ -10,6 +10,7 @@ from .forms import ProfileForm, EmailForm
 
 
 def sign_in(request):
+    """View to sign in existing user"""
     form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -35,6 +36,7 @@ def sign_in(request):
 
 
 def sign_up(request):
+    """View to create new user"""
     form = UserCreationForm()
     if request.method == 'POST':
         form = UserCreationForm(data=request.POST)
@@ -53,7 +55,9 @@ def sign_up(request):
     return render(request, 'accounts/sign_up.html', {'form': form})
 
 
+@login_required
 def sign_out(request):
+    """Sign user out"""
     logout(request)
     messages.success(request, "You've been signed out. Come back soon!")
     return HttpResponseRedirect(reverse('home'))
@@ -74,7 +78,7 @@ def edit_profile(request):
         form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('accounts:profile')
+            return redirect('profile')
     return render(request, 'accounts/forms.html', {'form': form})
 
 
@@ -86,5 +90,22 @@ def edit_email(request):
         form = EmailForm(data=request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('accounts:profile')
+            return redirect('profile')
     return render(request, 'accounts/forms.html', {'form': form})
+
+
+@login_required
+def change_password(request):
+    """View allows user to change password if logged in."""
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Updated password!')
+            return redirect('profile')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/forms.html', {
+        'form': form
+    })

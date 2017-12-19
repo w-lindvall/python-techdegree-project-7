@@ -23,7 +23,7 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^$', views.home, name='home'),
 ]
 urlpatterns += staticfiles_urlpatterns()

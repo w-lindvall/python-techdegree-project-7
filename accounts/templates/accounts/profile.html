@@ -14,14 +14,14 @@
         {% if profile.date_of_birth %}<h3>{{ profile.date_of_birth }}</h3>{% endif %}
         <p>{{ profile.email|urlize }}</p>
         <p>{{ profile.bio|linebreaksbr }}</p>
-        <a href="{% url 'accounts:edit_profile' %}"><button class="button-primary">Edit</button></a>
-        <a href="{% url 'accounts:edit_email' %}"><button class="button-secondary">
+        <a href="{% url 'edit_profile' %}"><button class="button-primary">Edit</button></a>
+        <a href="{% url 'edit_email' %}"><button class="button-secondary">
             {% if profile.email %}
                 Edit
             {% else %}
                 Add
             {% endif %}
                 Email</button></a>
-{#        <a href="{% url 'accounts:change_password' %}"><button class="button-secondary">Change Password</button></a>#}
+        <a href="{% url 'change_password' %}"><button class="button-secondary">Change Password</button></a>
     </div>
 {% endblock %}
