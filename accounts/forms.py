@@ -23,3 +23,21 @@ class ProfileForm(forms.ModelForm):
             raise forms.ValidationError('Bio must be at least 10 characters')
 
         return cleaned_data
+
+
+class EmailForm(forms.ModelForm):
+    """Form to edit user email"""
+    verify_email = forms.CharField(required=False)
+
+    class Meta:
+        model = Profile
+        fields = ('email', 'verify_email')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        verify_email = cleaned_data.get('verify_email')
+        if email != verify_email:
+            raise forms.ValidationError('Emails do not match')
+
+        return cleaned_data

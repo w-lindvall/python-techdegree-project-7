@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from .forms import ProfileForm
+from .forms import ProfileForm, EmailForm
 
 
 def sign_in(request):
@@ -72,6 +72,18 @@ def edit_profile(request):
     form = ProfileForm(instance=request.user.profile)
     if request.method == "POST":
         form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:profile')
+    return render(request, 'accounts/forms.html', {'form': form})
+
+
+@login_required
+def edit_email(request):
+    """Edit user email if logged in."""
+    form = EmailForm(instance=request.user.profile)
+    if request.method == "POST":
+        form = EmailForm(data=request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('accounts:profile')

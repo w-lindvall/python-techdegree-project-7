@@ -15,13 +15,13 @@
         <p>{{ profile.email|urlize }}</p>
         <p>{{ profile.bio|linebreaksbr }}</p>
         <a href="{% url 'accounts:edit_profile' %}"><button class="button-primary">Edit</button></a>
-{#        <a href="{% url 'accounts:edit_email' %}"><button class="button-secondary">#}
-{#            {% if profile.email %}#}
-{#                Edit#}
-{#            {% else %}#}
-{#                Add#}
-{#            {% endif %}#}
-{#                Email</button></a>#}
+        <a href="{% url 'accounts:edit_email' %}"><button class="button-secondary">
+            {% if profile.email %}
+                Edit
+            {% else %}
+                Add
+            {% endif %}
+                Email</button></a>
 {#        <a href="{% url 'accounts:change_password' %}"><button class="button-secondary">Change Password</button></a>#}
     </div>
 {% endblock %}
