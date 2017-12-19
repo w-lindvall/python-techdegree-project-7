@@ -54,7 +54,7 @@
                                 In</a></li>
                         {% elif user.is_authenticated %}
                             <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
-{#                            <li><a href="{% url 'accounts:edit_profile' %}">Edit</a></li>#}
+                            <li><a href="{% url 'accounts:edit_profile' %}">Edit</a></li>
                             <li><a href="{% url 'accounts:sign_out' %}">Sign Out</a></li>
                         {% endif %}
                     </ul>

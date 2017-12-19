@@ -4,7 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from .forms import ProfileForm
 
 
 def sign_in(request):
@@ -62,3 +64,15 @@ def profile(request):
     """Display user information if logged in."""
     profile = request.user.profile
     return render(request, 'accounts/profile.html', {'profile': profile})
+
+
+@login_required
+def edit_profile(request):
+    """Edit user information if logged in."""
+    form = ProfileForm(instance=request.user.profile)
+    if request.method == "POST":
+        form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:profile')
+    return render(request, 'accounts/forms.html', {'form': form})
