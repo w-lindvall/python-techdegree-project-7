@@ -1,7 +1,10 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import (authenticate, login,
+                                 logout, update_session_auth_hash)
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import (AuthenticationForm,
+                                       UserCreationForm,
+                                       PasswordChangeForm)
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -20,7 +23,7 @@ def sign_in(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(
-                        reverse('home')  # TODO: go to profile
+                        reverse('home')
                     )
                 else:
                     messages.error(
@@ -51,7 +54,7 @@ def sign_up(request):
                 request,
                 "You're now a user! You've been signed in, too."
             )
-            return HttpResponseRedirect(reverse('home'))  # TODO: go to profile
+            return HttpResponseRedirect(reverse('home'))
     return render(request, 'accounts/sign_up.html', {'form': form})
 
 
@@ -75,7 +78,8 @@ def edit_profile(request):
     """Edit user information if logged in."""
     form = ProfileForm(instance=request.user.profile)
     if request.method == "POST":
-        form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.profile)
+        form = ProfileForm(data=request.POST, files=request.FILES,
+                           instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('profile')

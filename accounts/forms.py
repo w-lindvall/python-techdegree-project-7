@@ -7,8 +7,9 @@ from .models import Profile
 
 class ProfileForm(forms.ModelForm):
     """Form to edit user profile information"""
-    date_of_birth = forms.DateField(widget=SelectDateWidget(empty_label=("Year", "Month", "Day"),
-                                                            years=(range(date.today().year-95, date.today().year-5))))
+    date_of_birth = forms.DateField(widget=SelectDateWidget(
+        empty_label=("Year", "Month", "Day"),
+        years=(range(date.today().year-95, date.today().year-5))))
 
     class Meta:
         model = Profile
